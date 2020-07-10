@@ -1,0 +1,14 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.full-w {
+  width: 100%;
+}
+.pL-20 {
+  padding-left: 20px;
+}
+.is-danger {
+  color: red;
+  border-color: red;
+}
