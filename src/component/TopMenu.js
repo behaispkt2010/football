@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 const TopMenu = props => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState(undefined);
+    const [showAdmin, setShowAdmin] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
     useEffect(() => {
         const user = AuthUserApi.getCurrentUser();

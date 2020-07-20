@@ -1,31 +1,68 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useState} from "react";
+import { Link, useHistory } from "react-router-dom";
+import AuthUserApi from "../api/AuthUserApi";
 
-const Register = ({ history, registerUser = f => f }) => {
-    let _email, _password, _name;
-
-    const handleLogin = e => {
+const Register = () => {
+    const phone = useFormInput('');
+    const password = useFormInput('');
+    const email = useFormInput('');
+    const name = useFormInput('');
+    const history = useHistory();
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState("");
+    const handleRegister = e => {
         e.preventDefault();
-
-        registerUser(_name.value, _email.value, _password.value);
+        setMessage("");
+        setLoading(true);
+        const param = {
+            phone: phone.value,
+            email: email.value,
+            name: name.value,
+            password: password.value
+        };
+        const response = AuthUserApi.register(param).then(
+            () => {
+                history.push('/');
+                window.location.reload();
+            }, (error) => {
+                const resMessage =
+                    (error.response && error.response.message) || error.message || error.toString();
+                setLoading(false);
+                setMessage(resMessage);
+            }
+        );
     };
     return (
-        <div id="main">
-            <form id="login-form" action="" onSubmit={handleLogin} method="post">
-                <h3 style={{ padding: 15 }}>Register Form</h3>
-                <input ref={input => (_name = input)}  autoComplete="off" id="name-input" name="name" type="text" className="center-block" placeholder="Name" />
-                <input ref={input => (_email = input)} autoComplete="off" id="email-input" name="email" type="text" className="center-block" placeholder="email" />
-                <input ref={input => (_password = input)}  autoComplete="off" id="password-input" name="password" type="password" className="center-block" placeholder="password" />
-                <button type="submit" className="landing-page-btn center-block text-center" id="email-login-btn" href="#facebook" >
-                    Register
-                </button>
-
-                <Link  to="/login">
-                    Login
-                </Link>
-            </form>
+        <div>
+        Register<br /><br />
+            <div>
+                Full name<br />
+                <input type="text" {...name} autoComplete="on" />
+            </div>
+            <div>
+                Username<br />
+                <input type="text" {...phone} autoComplete="off" />
+            </div>
+            <div style={{ marginTop: 10 }}>
+                Password<br />
+                <input type="password" {...password} autoComplete="new-password" />
+            </div>
+            <div style={{ marginTop: 10 }}>
+                Email<br />
+                <input type="text" {...email} autoComplete="on" />
+            </div>
+            <input type="button" value={loading ? 'Loading...' : 'Register'} onClick={handleRegister} disabled={loading} /> <br />
         </div>
     );
 };
-
+const useFormInput = initialValue => {
+    const [value, setValue] = useState(initialValue);
+    const handleChange = e => {
+        setValue(e.target.value);
+    }
+    return {
+        value,
+        onChange: handleChange
+    }
+}
 export default Register;

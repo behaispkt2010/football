@@ -12,7 +12,12 @@ const AuthUserApi = {
 	},
 	register: (params) => {
 		const url = "/auth/register";
-		return axiosClient.post(url, params);
+		return axiosClient.post(url, params).then((response) => {
+      		if (response.data.auth_token) {
+	        	localStorage.setItem("userData", JSON.stringify(response.data));
+	      	}
+	      	return response.data;
+	    });
 	},
 	logout: () => {
 		localStorage.removeItem("userData");
@@ -20,6 +25,14 @@ const AuthUserApi = {
 	},
 	getCurrentUser: () => {
 		return JSON.parse(localStorage.getItem("userData"));
+	},
+	getTokenHearder: () => {
+		const user = localStorage.getItem("userData");
+		if(user && user.auth_token) {
+			return {Authorization: 'Bearer ' + user.auth_token};
+		} else {
+			return {};
+		}
 	}
 }
 
