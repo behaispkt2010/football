@@ -6,7 +6,8 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  div,
+  Dropdown, DropdownToggle, DropdownMenu, DropdownItem, UncontrolledDropdown
 } from "reactstrap";
 
 import AuthUserApi from "../api/AuthUserApi";
@@ -16,11 +17,14 @@ const TopMenu = props => {
     const [isOpen, setIsOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState(undefined);
     const [showAdmin, setShowAdmin] = useState(false);
+    const [showSuperAdmin, setShowSuperAdmin] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
     useEffect(() => {
         const user = AuthUserApi.getCurrentUser();
         if(user) {
             setCurrentUser(user);
+            setShowAdmin(user.role.includes("admin"));
+            setShowSuperAdmin(user.role.includes("super-admin"));
         }
     },[]);
     const logOut = () => {
@@ -34,40 +38,80 @@ const TopMenu = props => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         <NavItem>
-                            <NavLink>
+                            <div className='nav-link'>
                                 <Link to="/">Trang chủ</Link>
-                            </NavLink>
+                            </div>
                         </NavItem>
+                        {(showAdmin || showSuperAdmin) && (
+                        <UncontrolledDropdown nav inNavbar>
+                            <DropdownToggle nav caret>Quản lý</DropdownToggle>
+                            <DropdownMenu>
+                                {showSuperAdmin && (
+                                <div>
+                                    <DropdownItem>
+                                        <Link to="/manage-company">Quản lý doanh nghiệp</Link>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <Link to="/manage-role">Quản lý phân quyền</Link>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <Link to="/manage-permission">Quản lý quyền</Link>
+                                    </DropdownItem>
+                                </div>
+                                )}
+                                {(showAdmin || showSuperAdmin) && (
+                                <div>
+                                    <DropdownItem>                          
+                                        <Link to="/manage-pick">Quản lý danh sách đặt sân</Link>
+                                    </DropdownItem>
+                                    <DropdownItem> 
+                                        <Link to="/manage-user">Quản lý khách hàng</Link>
+                                    </DropdownItem>
+                                    <DropdownItem> 
+                                        <Link to="/manage-staff">Quản lý nhân viên</Link>
+                                    </DropdownItem>
+                                    <DropdownItem> 
+                                        <Link to="/manage-location-court">Quản lý bãi</Link>
+                                    </DropdownItem>
+                                    <DropdownItem> 
+                                        <Link to="/manage-court">Quản lý sân</Link>
+                                    </DropdownItem>
+                                </div>
+                                )}
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                        )}
                         <NavItem>
-                            <NavLink>
+                            <div className='nav-link'>
                                 <Link to="/pick-court">Đặt sân</Link>
-                            </NavLink>
+                            </div>
                         </NavItem>
+                        
                     </Nav>
                     {currentUser ? (
                     <Nav>
                         <NavItem>
-                            <NavLink>
+                            <div className='nav-link'>
                                 <Link to="/profile">Thông tin {currentUser.name}</Link>
-                            </NavLink>
+                            </div>
                         </NavItem>
                         <NavItem>
-                            <NavLink>
+                            <div className='nav-link'>
                                 <Link to="/logout" onClick={logOut}>Đăng xuất</Link>
-                            </NavLink>
+                            </div>
                         </NavItem>
                     </Nav>
                     ) : (
                     <Nav>
                         <NavItem>
-                            <NavLink>
+                            <div className='nav-link'>
                                 <Link to="/login">Đăng nhập</Link>
-                            </NavLink>
+                            </div>
                         </NavItem>
                         <NavItem>
-                            <NavLink>
+                            <div className='nav-link'>
                                 <Link to="/register">Đăng ký</Link>
-                            </NavLink>
+                            </div>
                         </NavItem>
                     </Nav>
                     )}

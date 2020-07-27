@@ -1,9 +1,5 @@
-
-export const setCurrentUser = (data) => {
-  localStorage.setItem('userData', JSON.stringify(data));
+export const getRoleUser = (arrRole) => {
+  	return arrRole.map((data, index) => {
+  		return data;
+  	});
 }
-
-export const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem("userData"));
-};
-

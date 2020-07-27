@@ -12,3 +12,14 @@
   color: red;
   border-color: red;
 }
+.navbar-nav .nav-link {
+  padding: 15px;
+  display: inline-block;
+  line-height: 20px;
+}
+.dropdown-item.active, .dropdown-item:active {
+    background-color: transparent !important;
+}
+.cl-green {
+    color: #5cb85c;
+}

@@ -21,13 +21,13 @@ const AuthUserApi = {
 	},
 	logout: () => {
 		localStorage.removeItem("userData");
-		window.location.reload();
+		window.location.href = '/';
 	},
 	getCurrentUser: () => {
 		return JSON.parse(localStorage.getItem("userData"));
 	},
 	getTokenHearder: () => {
-		const user = localStorage.getItem("userData");
+		const user = JSON.parse(localStorage.getItem("userData"));
 		if(user && user.auth_token) {
 			return {Authorization: 'Bearer ' + user.auth_token};
 		} else {
