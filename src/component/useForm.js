@@ -24,18 +24,22 @@ const useForm = (callback, rulesValidate, initialUserInput) => {
 
     const handleChange = evt => {
         const name = evt.target.name;
-        let newValue = evt.target.value;
+        let newValue = "";
         let typeInput = evt.target.type;
-        let data = { [name]: newValue };
-        /*const value = evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
-          setState({
-            ...state,
-            [evt.target.name]: value
-        });*/
         if(typeInput === 'checkbox') {
-            
+            const nameCheck = name;
+            if(evt.target.checked === true) {
+                newValue = [...userInput[`${nameCheck}`], evt.target.value];
+            } else {
+                let newCheck = [...userInput[`${nameCheck}`]];
+                var index = newCheck.indexOf(evt.target.value)
+                newCheck.splice(index, 1);
+                newValue = newCheck;
+            }
+        } else {
+            newValue = evt.target.value;
         }
-        console.log(newValue);
+        let data = { [name]: newValue };
         setUserInput(data);
     };
 

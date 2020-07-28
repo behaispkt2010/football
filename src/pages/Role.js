@@ -56,7 +56,8 @@ function Role() {
     }
     function addNewData() {
     	const param = {
-			'name' : userInput.name
+			'name' : userInput.name,
+			'permission': userInput.permission
 		};
 		const response = RolesApi.add(param).then(
 			() => {
@@ -74,7 +75,8 @@ function Role() {
     function updateData() {
     	const param = {
     		'id': userInput.id, 
-			'name' : userInput.name
+			'name' : userInput.name,
+			'permission': userInput.permission
 		};
 		const response = RolesApi.update(param).then(
     		() => {
@@ -113,8 +115,9 @@ function Role() {
     function UpdateItem(data) {
     	setUserInput({
 	      	id: data.id,
-	      	name: data.name
-	    })
+	      	name: data.name,
+	      	permission: data.permissions
+	    }) 
     	setHeader('Cập nhật phân quyền');
     	toggle();
     }
@@ -149,12 +152,22 @@ function Role() {
 		fetchPermsList();
 	}, []);
 	function loadPerms() {
-		return permsList.map((data, index) => {
+		return permsList.map((perms, index) => {
+			// console.log(userInput.permission);
+			let isCheck = false;
+			userInput.permission.map((permsDB, idx) => {
+				if(permsDB.id == perms.id) {
+					isCheck = true;
+				}
+			});
+			 
+			// console.log(userInput.permission);
+			// console.log(isCheck);
             return (
-                <FormGroup key={data.id} check>
+                <FormGroup key={perms.id} check>
 			        <Label check>
-			          	<Input type="checkbox" name="permission[]" value={data.id} onChange={handleChange} />{' '}
-			          	{data.name}
+			          	<Input type="checkbox" name="permission" defaultChecked={isCheck} value={perms.id} onChange={handleChange} />{' '}
+			          	{perms.name}
 			        </Label>
 		      	</FormGroup>
             );

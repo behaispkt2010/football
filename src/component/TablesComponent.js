@@ -32,7 +32,7 @@ class Tables extends Component {
     renderTableData() {
         const { actionUpdateTables, actionDeleteTable } = this.props;
         return this.props.list.map((data, index) => {
-          // console.log(data["id"]);
+          // console.log(data);
             return (
                 <tr key={data["id"]}>
                     <td key={data["id"]}>{index+1}</td>
