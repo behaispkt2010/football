@@ -16,26 +16,28 @@ class Tables extends Component {
         });
     }
     renderTD(item) {
-        const { getSelectValue } = this.props;
+        const { showText } = this.props;
         let datakeys = this.props.dataField;
         return datakeys.map((key, index) => {
             let tempKey = Object.keys(key)[0];
             let render = item[tempKey];
             switch (tempKey) {
                 case "gender":
-                    render = getSelectValue(item[tempKey]);
+                    render = showText(item[tempKey]);
+                case "isactive":
+                    render = showText(item[tempKey]);
                 break;
             }
-            return <td key={item["id"]}>{render}</td>;
+            return <td key={index}>{render}</td>;
         });
     }
     renderTableData() {
         const { actionUpdateTables, actionDeleteTable } = this.props;
         return this.props.list.map((data, index) => {
-          // console.log(data);
+            // console.log(data);
             return (
-                <tr key={data["id"]}>
-                    <td key={data["id"]}>{index+1}</td>
+                <tr key={index}>
+                    <td key={index}>{index+1}</td>
                     {this.renderTD(data)}
                     <td>
                         <Button color="primary" onClick={() => actionUpdateTables(data)}>

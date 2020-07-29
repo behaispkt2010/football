@@ -28,6 +28,12 @@ function Court() {
       	method: "isEmpty",
       	validWhen: false,
       	message: "Vui lòng nhập tên"
+    },
+    {
+      	field: "address",
+      	method: "isEmpty",
+      	validWhen: false,
+      	message: "Vui lòng nhập địa chỉ"
     }];
     
     const initialUserInput = {
@@ -171,6 +177,28 @@ function Court() {
 			          	</InputGroup>
 			          	{errors.name && <p className="help is-danger">{errors.name}</p>}
 		          	</FormGroup>
+		        	<FormGroup>
+			          	<InputGroup>
+				            <InputGroupAddon addonType="prepend">
+				              	<InputGroupText>Địa chỉ</InputGroupText>
+				            </InputGroupAddon>
+				            <Input
+				              	value={userInput.address}
+				              	className={`input ${errors.address && "is-danger"}`}
+				              	name="address"
+				              	onChange={handleChange}
+				            />
+			          	</InputGroup>
+			          	{errors.address && <p className="help is-danger">{errors.address}</p>}
+		          	</FormGroup>
+		          	<FormGroup>
+			          	<InputGroup>
+					        <InputGroupAddon addonType="prepend">
+					          	<InputGroupText>Hoạt động</InputGroupText>
+					        </InputGroupAddon>{" "}
+					        <Input addon type="checkbox" name="isactive" defaultChecked={userInput.isactive[0] ? true : false} className="form-control" value='1' onChange={handleChange}/>
+				      	</InputGroup>
+			      	</FormGroup>
 		        </ModalBody>
 		        <ModalFooter>
 		          	<Button color="primary" onClick={handleSubmit} className="btnAddNew"disabled={loading}>{loading ? 'Loading...' : headerlabel}

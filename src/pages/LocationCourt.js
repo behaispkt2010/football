@@ -28,11 +28,22 @@ function LocationCourt() {
       	method: "isEmpty",
       	validWhen: false,
       	message: "Vui lòng nhập tên"
+    },
+    {
+      	field: "address",
+      	method: "isEmpty",
+      	validWhen: false,
+      	message: "Vui lòng nhập địa chỉ"
     }];
     
     const initialUserInput = {
         name: "",
-        id: ""
+        id: "",
+        idcompany: "",
+        address: "",
+        lat: "",
+        lng: "",
+        isactive: [],
     };
     const {
         userInput,
@@ -52,7 +63,9 @@ function LocationCourt() {
     }
     function addNewData() {
     	const param = {
-			'name' : userInput.name
+			'name' : userInput.name,
+			'address' : userInput.address,
+			'isactive' : userInput.isactive[0]
 		};
 		const response = LocationCourtApi.add(param).then(
 			() => {
@@ -70,7 +83,9 @@ function LocationCourt() {
     function updateData() {
     	const param = {
     		'id': userInput.id, 
-			'name' : userInput.name
+			'name' : userInput.name,
+			'address' : userInput.address,
+			'isactive' : userInput.isactive[0]
 		};
 		const response = LocationCourtApi.update(param).then(
     		() => {
@@ -109,7 +124,9 @@ function LocationCourt() {
     function UpdateItem(data) {
     	setUserInput({
 	      	id: data.id,
-	      	name: data.name
+	      	name: data.name,
+	      	address: data.address,
+			isactive: (data.isactive) ? [data.isactive] : []
 	    })
     	setHeader('Cập nhật bãi');
     	toggle();
@@ -131,6 +148,8 @@ function LocationCourt() {
 	}, []);
 	let arrFieldShow = [
 	    { name: "Tên bãi" },
+	    { address: "Địa chỉ" },
+	    { isactive: "Trạng thái" },
   	];
 	// console.log(locationCourtList);
 	return (
@@ -172,6 +191,28 @@ function LocationCourt() {
 			          	</InputGroup>
 			          	{errors.name && <p className="help is-danger">{errors.name}</p>}
 		          	</FormGroup>
+		        	<FormGroup>
+			          	<InputGroup>
+				            <InputGroupAddon addonType="prepend">
+				              	<InputGroupText>Địa chỉ</InputGroupText>
+				            </InputGroupAddon>
+				            <Input
+				              	value={userInput.address}
+				              	className={`input ${errors.address && "is-danger"}`}
+				              	name="address"
+				              	onChange={handleChange}
+				            />
+			          	</InputGroup>
+			          	{errors.address && <p className="help is-danger">{errors.address}</p>}
+		          	</FormGroup>
+		          	<FormGroup>
+			          	<InputGroup>
+					        <InputGroupAddon addonType="prepend">
+					          	<InputGroupText>Hoạt động</InputGroupText>
+					        </InputGroupAddon>{" "}
+					        <Input addon type="checkbox" name="isactive" defaultChecked={userInput.isactive[0] ? true : false} className="form-control" value='1' onChange={handleChange}/>
+				      	</InputGroup>
+			      	</FormGroup>
 		        </ModalBody>
 		        <ModalFooter>
 		          	<Button color="primary" onClick={handleSubmit} className="btnAddNew"disabled={loading}>{loading ? 'Loading...' : headerlabel}

@@ -106,18 +106,23 @@ function Role() {
 	            }
 			);
     	}
-    	
     }
     function showModal() {
     	setHeader('Thêm mới phân quyền');
+    	setUserInput(initialUserInput);
     	toggle();
     }
     function UpdateItem(data) {
+    	const arrPerm = [];
+    	data.permissions.map((perm, idx) => {
+    		arrPerm.push(perm['id']+'');
+    	});
     	setUserInput({
 	      	id: data.id,
 	      	name: data.name,
-	      	permission: data.permissions
+	      	permission: arrPerm
 	    }) 
+
     	setHeader('Cập nhật phân quyền');
     	toggle();
     }
@@ -156,7 +161,7 @@ function Role() {
 			// console.log(userInput.permission);
 			let isCheck = false;
 			userInput.permission.map((permsDB, idx) => {
-				if(permsDB.id == perms.id) {
+				if(permsDB == perms.id) {
 					isCheck = true;
 				}
 			});

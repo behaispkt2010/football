@@ -10,8 +10,10 @@ import { Container, Row, Col, Button, Modal,
   InputGroupAddon,
   InputGroupText,
   Input,
-  FormGroup } from "reactstrap";
+  FormGroup,
+  Label } from "reactstrap";
 import useForm from "../component/useForm";
+import {getStatus} from "../Utils/Common";
 
 function Company() {
 	const [companyList, setCompanyList] = useState([]);
@@ -39,7 +41,8 @@ function Company() {
         name: "",
         phone: "",
         note: "",
-        id: ""
+        id: "",
+        isactive: []
     };
     const {
         userInput,
@@ -61,7 +64,8 @@ function Company() {
     	const param = {
 			'name' : userInput.name,
 			'phone': userInput.phone,
-			'note': userInput.note
+			'note': userInput.note,
+			'isactive': userInput.isactive[0]
 		};
 		const response = CompanyApi.add(param).then(
 			() => {
@@ -81,8 +85,11 @@ function Company() {
     		'id': userInput.id, 
 			'name' : userInput.name,
 			'phone': userInput.phone,
-			'note': userInput.note
+			'note': userInput.note,
+			'isactive': userInput.isactive[0]
 		};
+		// console.log(param);
+		// setLoading(false);
 		const response = CompanyApi.update(param).then(
     		() => {
     			toggle();
@@ -122,8 +129,9 @@ function Company() {
 	      	id: data.id,
 	      	name: data.name,
 			phone: data.phone,
-			note: data.note
-	    })
+			note: data.note,
+			isactive: (data.isactive) ? [data.isactive] : []
+	    });
     	setHeader('Cập nhật doanh nghiệp');
     	toggle();
     }
@@ -145,8 +153,9 @@ function Company() {
 	let arrFieldShow = [
 	    { name: "Tên doanh nghiệp" },
 	    { phone: "Số điện thoại" },
+	    { isactive: "Trạng thái" },
   	];
-	// console.log(companyList);
+	// console.log(companyList); 
 	return (
 	    <Col xs="12">
 	      	<Row>
@@ -167,6 +176,7 @@ function Company() {
 	          	dataField={arrFieldShow}
 	          	actionUpdateTables={UpdateItem}
 	          	actionDeleteTable={DeleteData}
+	          	showText={getStatus}
 	        />
 	      	)}
 	      	<Modal isOpen={modal} toggle={toggle}>
@@ -212,6 +222,15 @@ function Company() {
 				            />
 			          	</InputGroup>
 		          	</FormGroup>
+		          	<FormGroup>
+			          	<InputGroup>
+					        <InputGroupAddon addonType="prepend">
+					          	<InputGroupText>Hoạt động</InputGroupText>
+					        </InputGroupAddon>{" "}
+					        <Input addon type="checkbox" name="isactive" defaultChecked={userInput.isactive[0] ? true : false} className="form-control" value='1' onChange={handleChange}/>
+				      	</InputGroup>
+			      	</FormGroup>
+		          	
 		        </ModalBody>
 		        <ModalFooter>
 		          	<Button color="primary" onClick={handleSubmit} className="btnAddNew"disabled={loading}>{loading ? 'Loading...' : headerlabel}
