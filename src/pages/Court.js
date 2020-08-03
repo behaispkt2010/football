@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import CourtApi from "../api/CourtApi";
+import LocationCourtApi from "../api/LocationCourtApi";
 import TablesComponent from "../component/TablesComponent";
 import {confirm} from "../component/Confirmation";
 import { Container, Row, Col, Button, Modal,
@@ -12,9 +13,11 @@ import { Container, Row, Col, Button, Modal,
   Input,
   FormGroup } from "reactstrap";
 import useForm from "../component/useForm";
+import {getStatus} from "../Utils/Common";
 
 function Court() {
 	const [CourtList, setCourtList] = useState([]);
+	const [locationCourtList, setLocationCourtList] = useState([]);
 	const [modal, setModal] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState(false);
@@ -30,14 +33,23 @@ function Court() {
       	message: "Vui lòng nhập tên"
     },
     {
-      	field: "address",
+      	field: "idlocation",
       	method: "isEmpty",
       	validWhen: false,
-      	message: "Vui lòng nhập địa chỉ"
+      	message: "Vui lòng chọn bãi"
+    },
+    {
+      	field: "limit_player",
+      	method: "isEmpty",
+      	validWhen: false,
+      	message: "Vui lòng nhập số lượng người"
     }];
     
     const initialUserInput = {
         name: "",
+        idlocation: "",
+        isactive: "",
+        limit_player: "",
         id: ""
     };
     const {
@@ -58,7 +70,10 @@ function Court() {
     }
     function addNewData() {
     	const param = {
-			'name' : userInput.name
+			'name' : userInput.name,
+			'idlocation': userInput.idlocation,
+	        'isactive': (userInput.isactive[0] != 1) ? 0 : 1,
+	        'limit_player': userInput.limit_player,
 		};
 		const response = CourtApi.add(param).then(
 			() => {
@@ -76,8 +91,13 @@ function Court() {
     function updateData() {
     	const param = {
     		'id': userInput.id, 
-			'name' : userInput.name
+			'name' : userInput.name,
+			'idlocation': userInput.idlocation,
+	        'isactive': (userInput.isactive[0] != 1) ? 0 : 1,
+	        'limit_player': userInput.limit_player,
 		};
+		// setLoading(false);
+		// console.log(param);
 		const response = CourtApi.update(param).then(
     		() => {
     			toggle();
@@ -114,7 +134,10 @@ function Court() {
     function UpdateItem(data) {
     	setUserInput({
 	      	id: data.id,
-	      	name: data.name
+	      	name: data.name,
+	      	idlocation: data.idlocation,
+	        isactive: (data.isactive) ? [data.isactive] : [],
+	        limit_player: data.limit_player+'',
 	    })
     	setHeader('Cập nhật sân');
     	toggle();
@@ -126,7 +149,7 @@ function Court() {
 					'_page' : 1
 				};
 				const response = await CourtApi.getAll(param);
-				// console.log(response);
+				// console.log(response.data);
 				setCourtList(response.data);
 			} catch (errordata) { 
 				console.log("Fail to fetch data: ", errordata);
@@ -134,10 +157,33 @@ function Court() {
 		}
 		fetchCourtList();
 	}, []);
+	useEffect(() => {
+		const fetchLocationCourtList = async() => {
+			try {
+				const param = {
+					'_page' : 1
+				};
+				const response = await LocationCourtApi.getAll(param);
+				// console.log(response);
+				setLocationCourtList(response.data);
+			} catch (errordata) { 
+				console.log("Fail to fetch data: ", errordata);
+			}
+		}
+		fetchLocationCourtList();
+	}, []);
 	let arrFieldShow = [
 	    { name: "Tên sân" },
+	    { limit_player: "Số người" },
+	    { isactive: "Trạng thái" },
   	];
-	// console.log(CourtList);
+  	function getLocationCourt() {
+  		return locationCourtList.map((dataLocation, idx) => {
+  			return (
+  				<option key={idx} value={dataLocation.id}>{dataLocation.name}</option>
+			)
+  		});
+  	}
 	return (
 	    <Col xs="12">
 	      	<Row>
@@ -158,6 +204,7 @@ function Court() {
 	          	dataField={arrFieldShow}
 	          	actionUpdateTables={UpdateItem}
 	          	actionDeleteTable={DeleteData}
+	          	showText={getStatus}
 	        />
 	      	)}
 	      	<Modal isOpen={modal} toggle={toggle}>
@@ -180,16 +227,33 @@ function Court() {
 		        	<FormGroup>
 			          	<InputGroup>
 				            <InputGroupAddon addonType="prepend">
-				              	<InputGroupText>Địa chỉ</InputGroupText>
+				              	<InputGroupText>Bãi</InputGroupText>
 				            </InputGroupAddon>
 				            <Input
-				              	value={userInput.address}
-				              	className={`input ${errors.address && "is-danger"}`}
-				              	name="address"
-				              	onChange={handleChange}
-				            />
+				            	type="select"
+				              	value={userInput.idlocation}
+				              	className={`input ${errors.idlocation && "is-danger"}`}
+				              	name="idlocation"
+				              	onChange={handleChange}>
+				              	<option value="">Lựa chọn bãi</option>
+				              	{getLocationCourt()}
+			              	</Input>
 			          	</InputGroup>
-			          	{errors.address && <p className="help is-danger">{errors.address}</p>}
+			          	{errors.idlocation && <p className="help is-danger">{errors.idlocation}</p>}
+		          	</FormGroup>
+		        	<FormGroup>
+			          	<InputGroup>
+				            <InputGroupAddon addonType="prepend">
+				              	<InputGroupText>Số người</InputGroupText>
+				            </InputGroupAddon>
+				            <Input
+				              	value={userInput.limit_player}
+				              	className={`input ${errors.limit_player && "is-danger"}`}
+				              	name="limit_player"
+				              	onChange={handleChange}>
+			              	</Input>
+			          	</InputGroup>
+			          	{errors.limit_player && <p className="help is-danger">{errors.limit_player}</p>}
 		          	</FormGroup>
 		          	<FormGroup>
 			          	<InputGroup>

@@ -1,31 +1,26 @@
 import axiosClient from "./axiosClient";
 import AuthUserApi from "./AuthUserApi";
 
-const UserApi = {
+const TimeFrameApi = {
 	getAll: (params) => {
-		const url = "/customer";
+		const url = "/time_frame";
 		return axiosClient.get(url, params); 
-	}, 
-	getUser: (params) => {
-		const url = "/user";
-		return axiosClient.get(url, params); 
-	}, 
+	},
 	get: (id) => {
-		const url = `/user/${id}`; 
+		const url = `/time_frame/${id}`; 
 		return axiosClient.get(url);
 	},
 	add: (params) => {
-		const url = "/user";
+		const url = "/time_frame";
 		return axiosClient.post(url, params);
 	}, 
 	update: (params) => {
-		const url = `/user/update/${params.id}`;
+		const url = `/time_frame/update/${params.id}`;
 		return axiosClient.patch(url, params);
 	},
 	delete: (id) => {
-		const url = `/user/delete/${id}`;
+		const url = `/time_frame/delete/${id}`;
 		return axiosClient.delete(url);
 	}
 }
-
-export default UserApi;
+export default TimeFrameApi;

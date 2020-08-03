@@ -1,31 +1,27 @@
 import axiosClient from "./axiosClient";
 import AuthUserApi from "./AuthUserApi";
 
-const UserApi = {
+const PickCourtApi = {
 	getAll: (params) => {
-		const url = "/customer";
+		const url = "/pick_court";
 		return axiosClient.get(url, params); 
-	}, 
-	getUser: (params) => {
-		const url = "/user";
-		return axiosClient.get(url, params); 
-	}, 
+	},
 	get: (id) => {
-		const url = `/user/${id}`; 
+		const url = `/pick_court/${id}`; 
 		return axiosClient.get(url);
 	},
 	add: (params) => {
-		const url = "/user";
+		const url = "/pick_court";
 		return axiosClient.post(url, params);
 	}, 
 	update: (params) => {
-		const url = `/user/update/${params.id}`;
+		const url = `/pick_court/update/${params.id}`;
 		return axiosClient.patch(url, params);
 	},
 	delete: (id) => {
-		const url = `/user/delete/${id}`;
+		const url = `/pick_court/delete/${id}`;
 		return axiosClient.delete(url);
 	}
 }
 
-export default UserApi;
+export default PickCourtApi;

@@ -13,6 +13,9 @@ import Permission from "./pages/Permission";
 import Company from "./pages/Company";
 import LocationCourt from "./pages/LocationCourt";
 import Court from "./pages/Court";
+import User from "./pages/User";
+import Customer from "./pages/Customer";
+import PickCourt from "./pages/PickCourt";
 import AuthUserApi from "./api/AuthUserApi";
 import './fontawesome';
 
@@ -38,6 +41,9 @@ function App() {
                 <Route path="/manage-company" component={Company} />
                 <Route path="/manage-court" component={Court} />
                 <Route path="/manage-role" component={Role} />
+                <Route path="/manage-user" component={User} />
+                <Route path="/manage-customer" component={Customer} />
+                <Route path="/pick-court" component={PickCourt} />
             </div>
         </Router>
     );

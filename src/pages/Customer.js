@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
-import LocationCourtApi from "../api/LocationCourtApi";
-import CompanyApi from "../api/CompanyApi";
+import UserApi from "../api/UserApi";
 import TablesComponent from "../component/TablesComponent";
 import {confirm} from "../component/Confirmation";
 import { Container, Row, Col, Button, Modal,
@@ -13,15 +12,13 @@ import { Container, Row, Col, Button, Modal,
   Input,
   FormGroup } from "reactstrap";
 import useForm from "../component/useForm";
-import {getStatus} from "../Utils/Common";
 
-function LocationCourt() {
-	const [locationCourtList, setLocationCourtList] = useState([]);
-	const [companyList, setCompanyList] = useState([]);
+function Customer() {
+	const [userList, setUserList] = useState([]);
 	const [modal, setModal] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState(false);
-	const [headerlabel, setHeader] = useState("Thêm mới bãi");
+	const [headerlabel, setHeader] = useState("Thêm mới quyền");
 	const toggle = () => {
 		setModal(!modal);
 	}
@@ -33,26 +30,16 @@ function LocationCourt() {
       	message: "Vui lòng nhập tên"
     },
     {
-      	field: "address",
+      	field: "phone",
       	method: "isEmpty",
       	validWhen: false,
-      	message: "Vui lòng nhập địa chỉ"
-    },
-    {
-      	field: "idcompany",
-      	method: "isEmpty",
-      	validWhen: false,
-      	message: "Vui lòng chọn doanh nghiệp"
+      	message: "Vui lòng nhập số điện thoại"
     }];
     
     const initialUserInput = {
         name: "",
-        id: "",
-        idcompany: "",
-        address: "",
-        lat: "",
-        lng: "",
-        isactive: [],
+        phone: "",
+        id: ""
     };
     const {
         userInput,
@@ -73,11 +60,9 @@ function LocationCourt() {
     function addNewData() {
     	const param = {
 			'name' : userInput.name,
-			'address' : userInput.address,
-			'idcompany' : userInput.idcompany,
-			'isactive' : (userInput.isactive[0] != 1) ? 0 : 1
+			'phone' : userInput.phone
 		};
-		const response = LocationCourtApi.add(param).then(
+		const response = UserApi.add(param).then(
 			() => {
 				toggle();
 				setLoading(false);
@@ -94,13 +79,9 @@ function LocationCourt() {
     	const param = {
     		'id': userInput.id, 
 			'name' : userInput.name,
-			'address' : userInput.address,
-			'idcompany' : userInput.idcompany,
-			'isactive' : (userInput.isactive[0] != 1) ? 0 : 1 
+			'phone' : userInput.phone
 		};
-		// console.log(param);
-		// setLoading(false);
-		const response = LocationCourtApi.update(param).then(
+		const response = UserApi.update(param).then(
     		() => {
     			toggle();
     			setLoading(false);
@@ -115,7 +96,7 @@ function LocationCourt() {
     }
     const DeleteData = async data => {
     	if(await confirm("Bạn có chắc muốn xóa ?")) {
-    		const response = LocationCourtApi.delete(data.id).then(
+    		const response = UserApi.delete(data.id).then(
 	    		() => {
 	    			toggle();
 	    			setLoading(false);
@@ -131,68 +112,43 @@ function LocationCourt() {
     	
     }
     function showModal() {
-    	setHeader('Thêm mới bãi');
+    	setHeader('Thêm mới quyền');
     	toggle();
     }
     function UpdateItem(data) {
     	setUserInput({
 	      	id: data.id,
 	      	name: data.name,
-	      	address: data.address,
-	      	idcompany : data.idcompany,
-			isactive: (data.isactive) ? [data.isactive] : []
+	      	phone: data.phone
 	    })
-    	setHeader('Cập nhật bãi');
+    	setHeader('Cập nhật thông tin khách hàng');
     	toggle();
     }
 	useEffect(() => {
-		const fetchlocationCourtList = async() => {
+		const fetchuserList = async() => {
 			try {
 				const param = {
 					'_page' : 1
 				};
-				const response = await LocationCourtApi.getAll(param);
+				const response = await UserApi.getAll(param);
 				// console.log(response);
-				setLocationCourtList(response.data);
+				setUserList(response.data);
 			} catch (errordata) { 
 				console.log("Fail to fetch data: ", errordata);
 			}
 		}
-		fetchlocationCourtList();
+		fetchuserList();
 	}, []);
-	useEffect(() => {
-		const fetchCompanyList = async() => {
-			try {
-				const param = {
-					
-				};
-				const response = await CompanyApi.getAll(param);
-				// console.log(response);
-				setCompanyList(response.data);
-			} catch (errordata) { 
-				console.log("Fail to fetch data: ", errordata);
-			}
-		}
-		fetchCompanyList();
-	}, []);
-	function getListCompany() {
-		return companyList.map((dataCompany, idx) => {
-			return(
-				<option key={idx} value={dataCompany.id}>{dataCompany.name}</option>
-			)
-		});
-	}
 	let arrFieldShow = [
-	    { name: "Tên bãi" },
-	    { address: "Địa chỉ" },
-	    { isactive: "Trạng thái" },
+	    { name: "Tên khách hàng" },
+	    { phone: "Số điện thoại" },
   	];
-	// console.log(locationCourtList);
+	// console.log(userList);
 	return (
 	    <Col xs="12">
 	      	<Row>
 		        <Col xs="12">
-		          <h1>Danh sách Bãi</h1>
+		          <h1>Danh sách khách hàng</h1>
 		        </Col>
 	      	</Row>
 	      	<Row>
@@ -202,14 +158,13 @@ function LocationCourt() {
 		          	</Button>
 		        </Col>
 	      	</Row>
-	      	{locationCourtList !== null && ( 
+	      	{userList !== null && ( 
 	        <TablesComponent
-	          	list={locationCourtList}
+	          	list={userList}
 	          	dataField={arrFieldShow}
 	          	actionUpdateTables={UpdateItem}
 	          	actionDeleteTable={DeleteData}
-	          	showText={getStatus}
-	        />
+	        /> 
 	      	)}
 	      	<Modal isOpen={modal} toggle={toggle}>
 		        <ModalHeader toggle={toggle}>{headerlabel}</ModalHeader>
@@ -231,42 +186,17 @@ function LocationCourt() {
 		        	<FormGroup>
 			          	<InputGroup>
 				            <InputGroupAddon addonType="prepend">
-				              	<InputGroupText>Địa chỉ</InputGroupText>
+				              	<InputGroupText>Số điện thoại</InputGroupText>
 				            </InputGroupAddon>
 				            <Input
-				              	value={userInput.address}
-				              	className={`input ${errors.address && "is-danger"}`}
-				              	name="address"
+				              	value={userInput.phone}
+				              	className={`input ${errors.phone && "is-danger"}`}
+				              	name="phone"
 				              	onChange={handleChange}
 				            />
 			          	</InputGroup>
-			          	{errors.address && <p className="help is-danger">{errors.address}</p>}
+			          	{errors.phone && <p className="help is-danger">{errors.phone}</p>}
 		          	</FormGroup>
-		          	<FormGroup>
-		          		<InputGroup>
-				            <InputGroupAddon addonType="prepend">
-				              	<InputGroupText>Thuộc doanh nghiệp</InputGroupText>
-				            </InputGroupAddon>
-				            <Input
-				            	type="select"
-				              	value={userInput.idcompany}
-				              	className={`input ${errors.idcompany && "is-danger"}`}
-				              	name="idcompany"
-				              	onChange={handleChange}>
-				              	<option value="">Lựa chọn doanh nghiệp</option>
-				              	{getListCompany()}
-			              	</Input>
-			          	</InputGroup>
-			          	{errors.idcompany && <p className="help is-danger">{errors.idcompany}</p>}
-		          	</FormGroup>
-		          	<FormGroup>
-			          	<InputGroup>
-					        <InputGroupAddon addonType="prepend">
-					          	<InputGroupText>Hoạt động</InputGroupText>
-					        </InputGroupAddon>{" "}
-					        <Input addon type="checkbox" name="isactive" defaultChecked={userInput.isactive[0] ? true : false} className="form-control" value='1' onChange={handleChange}/>
-				      	</InputGroup>
-			      	</FormGroup>
 		        </ModalBody>
 		        <ModalFooter>
 		          	<Button color="primary" onClick={handleSubmit} className="btnAddNew"disabled={loading}>{loading ? 'Loading...' : headerlabel}
@@ -280,4 +210,4 @@ function LocationCourt() {
       	
   	);
 }
-export default LocationCourt;
+export default Customer;

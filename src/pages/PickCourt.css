@@ -1,0 +1,14 @@
+.item-date {
+	border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, .0625);
+    margin: 10px;
+    padding: 8px;
+    background-color: greenyellow;
+}
+.show-date {
+	text-align: right;
+	float: right;
+}
+.item-timeframe {
+	text-align: left;
+}

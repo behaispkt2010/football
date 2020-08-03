@@ -65,10 +65,10 @@ const TopMenu = props => {
                                         <Link to="/manage-pick">Quản lý danh sách đặt sân</Link>
                                     </DropdownItem>
                                     <DropdownItem> 
-                                        <Link to="/manage-user">Quản lý khách hàng</Link>
+                                        <Link to="/manage-customer">Quản lý khách hàng</Link>
                                     </DropdownItem>
                                     <DropdownItem> 
-                                        <Link to="/manage-staff">Quản lý nhân viên</Link>
+                                        <Link to="/manage-user">Quản lý nhân viên</Link>
                                     </DropdownItem>
                                     <DropdownItem> 
                                         <Link to="/manage-location-court">Quản lý bãi</Link>
@@ -106,11 +106,6 @@ const TopMenu = props => {
                         <NavItem>
                             <div className='nav-link'>
                                 <Link to="/login">Đăng nhập</Link>
-                            </div>
-                        </NavItem>
-                        <NavItem>
-                            <div className='nav-link'>
-                                <Link to="/register">Đăng ký</Link>
                             </div>
                         </NavItem>
                     </Nav>

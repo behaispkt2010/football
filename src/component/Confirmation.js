@@ -13,6 +13,7 @@ class Confirmation extends React.Component {
       confirmation,
       show,
       proceed,
+      alert,
       enableEscape = true
     } = this.props;
     return (
@@ -24,7 +25,7 @@ class Confirmation extends React.Component {
         >
           <ModalBody>{confirmation}</ModalBody>
           <ModalFooter>
-            <Button onClick={() => proceed(false)}>{cancelLabel}</Button>
+            {alert == true && <Button onClick={() => proceed(false)}>{cancelLabel}</Button>}
             <Button
               className="button-l"
               color="primary"
@@ -45,6 +46,7 @@ Confirmation.propTypes = {
   title: PropTypes.string,
   confirmation: PropTypes.string,
   show: PropTypes.bool,
+  alert: PropTypes.bool,
   proceed: PropTypes.func, // called when ok button is clicked.
   enableEscape: PropTypes.bool
 };
@@ -53,12 +55,14 @@ export function confirm(
   confirmation,
   proceedLabel = "Xác nhận",
   cancelLabel = "Hủy",
+  alert = true,
   options = {}
 ) {
   return createConfirmation(confirmable(Confirmation))({
     confirmation,
     proceedLabel,
     cancelLabel,
+    alert,
     ...options
   });
 }

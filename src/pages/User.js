@@ -13,7 +13,7 @@ import { Container, Row, Col, Button, Modal,
   FormGroup } from "reactstrap";
 import useForm from "../component/useForm";
 
-function User() {
+function Customer() {
 	const [userList, setUserList] = useState([]);
 	const [modal, setModal] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -28,10 +28,17 @@ function User() {
       	method: "isEmpty",
       	validWhen: false,
       	message: "Vui lòng nhập tên"
+    },
+    {
+      	field: "phone",
+      	method: "isEmpty",
+      	validWhen: false,
+      	message: "Vui lòng nhập số điện thoại"
     }];
     
     const initialUserInput = {
         name: "",
+        phone: "",
         id: ""
     };
     const {
@@ -52,7 +59,8 @@ function User() {
     }
     function addNewData() {
     	const param = {
-			'name' : userInput.name
+			'name' : userInput.name,
+			'phone' : userInput.phone
 		};
 		const response = UserApi.add(param).then(
 			() => {
@@ -70,7 +78,8 @@ function User() {
     function updateData() {
     	const param = {
     		'id': userInput.id, 
-			'name' : userInput.name
+			'name' : userInput.name,
+			'phone' : userInput.phone
 		};
 		const response = UserApi.update(param).then(
     		() => {
@@ -103,15 +112,16 @@ function User() {
     	
     }
     function showModal() {
-    	setHeader('Thêm mới quyền');
+    	setHeader('Thêm mới người dùng');
     	toggle();
     }
     function UpdateItem(data) {
     	setUserInput({
 	      	id: data.id,
-	      	name: data.name
+	      	name: data.name,
+	      	phone: data.phone
 	    })
-    	setHeader('Cập nhật thông tin khách hàng');
+    	setHeader('Cập nhật thông tin người dùng');
     	toggle();
     }
 	useEffect(() => {
@@ -120,7 +130,7 @@ function User() {
 				const param = {
 					'_page' : 1
 				};
-				const response = await UserApi.getAll(param);
+				const response = await UserApi.getUser(param);
 				// console.log(response);
 				setUserList(response.data);
 			} catch (errordata) { 
@@ -130,23 +140,24 @@ function User() {
 		fetchuserList();
 	}, []);
 	let arrFieldShow = [
-	    { name: "Tên khách hàng" },
+	    { name: "Tên người dùng" },
+	    { phone: "Số điện thoại" },
   	];
 	// console.log(userList);
 	return (
 	    <Col xs="12">
 	      	<Row>
 		        <Col xs="12">
-		          <h1>Danh sách khách hàng</h1>
+		          <h1>Danh sách người dùng</h1>
 		        </Col>
 	      	</Row>
-	      	<Row>
+	      	{/*<Row>
 		        <Col xs="12" className="d-flex pL-20 justify-content-start">
 		          	<Button color="primary" size="lg" active onClick={showModal}>
 		            	Tạo mới
 		          	</Button>
 		        </Col>
-	      	</Row>
+	      	</Row>*/}
 	      	{userList !== null && ( 
 	        <TablesComponent
 	          	list={userList}
@@ -172,6 +183,20 @@ function User() {
 			          	</InputGroup>
 			          	{errors.name && <p className="help is-danger">{errors.name}</p>}
 		          	</FormGroup>
+		        	<FormGroup>
+			          	<InputGroup>
+				            <InputGroupAddon addonType="prepend">
+				              	<InputGroupText>Số điện thoại</InputGroupText>
+				            </InputGroupAddon>
+				            <Input
+				              	value={userInput.phone}
+				              	className={`input ${errors.phone && "is-danger"}`}
+				              	name="phone"
+				              	onChange={handleChange}
+				            />
+			          	</InputGroup>
+			          	{errors.phone && <p className="help is-danger">{errors.phone}</p>}
+		          	</FormGroup>
 		        </ModalBody>
 		        <ModalFooter>
 		          	<Button color="primary" onClick={handleSubmit} className="btnAddNew"disabled={loading}>{loading ? 'Loading...' : headerlabel}
@@ -185,4 +210,4 @@ function User() {
       	
   	);
 }
-export default User;
+export default Customer;

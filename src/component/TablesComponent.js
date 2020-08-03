@@ -25,6 +25,7 @@ class Tables extends Component {
                 case "gender":
                     render = showText(item[tempKey]);
                 case "isactive":
+                    console.log(item[tempKey]);
                     render = showText(item[tempKey]);
                 break;
             }
