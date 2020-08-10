@@ -4,6 +4,8 @@
     margin: 10px;
     padding: 8px;
     background-color: greenyellow;
+    /*height: 90px;*/
+    cursor: pointer;
 }
 .show-date {
 	text-align: right;
@@ -11,4 +13,26 @@
 }
 .item-timeframe {
 	text-align: left;
+}
+.icon-right {
+	position: relative;
+	top: 35%;
+	background-color: #fff;
+	border-radius: 5px;
+	font-size: 20px;
+}
+.item-timeframe-pick {
+	text-align: center;
+	background-color: #efd792; 
+	border-radius: 5px;
+	border: 1px solid rgba(0, 0, 0, .0625);
+	margin: 10px;
+	padding: 10px 0;
+	font-weight: bold;
+}
+.title-date-pick {
+	text-align: center;
+}
+.pitch {
+	padding-left: 10px;	
 }
