@@ -16,6 +16,7 @@ import Court from "./pages/Court";
 import User from "./pages/User";
 import Customer from "./pages/Customer";
 import PickCourt from "./pages/PickCourt";
+import PickCourtSuccess from "./pages/PickCourtSuccess";
 import AuthUserApi from "./api/AuthUserApi";
 import './fontawesome';
 
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/manage-user" component={User} />
                 <Route path="/manage-customer" component={Customer} />
                 <Route path="/pick-court" component={PickCourt} />
+                <Route path="/success" component={PickCourtSuccess} />
             </div>
         </Router>
     );

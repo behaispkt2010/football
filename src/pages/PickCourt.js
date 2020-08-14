@@ -10,6 +10,7 @@ import {
   Input,
   FormGroup
 } from "reactstrap";
+import { useHistory } from "react-router-dom";
 import PickCourtApi from "../api/PickCourtApi";
 import TimeFrameApi from "../api/TimeFrameApi";
 import LocationCourtApi from "../api/LocationCourtApi";
@@ -31,6 +32,7 @@ function PickCourt() {
 	const [optionCourt, setOptionCourt] = useState(null);
 	const [timeFrameFreeList, setTimeFrameFree] = useState(null);
 	const [timeFrameShow, setTimeFrameShow] = useState(null);
+	const history = useHistory();
 	const toggle = () => {
 		setModal(!modal);
 	}
@@ -120,7 +122,9 @@ function PickCourt() {
 				() => {
 					toggle();
 					setLoading(false);
-					window.location.reload();
+					// console.log(response);
+					// history.push('/success');
+     //                window.location.reload();
 				}, (error) => {
 	                const resMessage =
 	                    (error.response && error.response.message) || error.message || error.toString();
@@ -128,6 +132,7 @@ function PickCourt() {
 	                setMessage(resMessage);
 	            }
 			);
+			// console.log(response);
 		}
 	}
 	function showListDate() {
