@@ -119,12 +119,18 @@ function PickCourt() {
 		};
 		if(await confirm("Xác nhận đặt sân ?")) {
 			const response = PickCourtApi.add(param).then(
-				() => {
+				(rs) => {
 					toggle();
 					setLoading(false);
-					// console.log(response);
-					// history.push('/success');
-     //                window.location.reload();
+					console.log(rs);
+					const dataRs = rs.data;
+					let id = dataRs[0]['id'];
+					history.push({
+						pathname: '/success',
+						search: '?id='+id, 
+						data: dataRs
+					});
+                    // window.location.reload();
 				}, (error) => {
 	                const resMessage =
 	                    (error.response && error.response.message) || error.message || error.toString();
@@ -214,6 +220,7 @@ function PickCourt() {
   			confirm("Bạn vui lòng chọn bãi!!!", "OK", "Bỏ", false);
   		}
   	}
+  	// console.log(userInput);
   	// handle modal
   	function closeModalPick() {
   		handleClose();

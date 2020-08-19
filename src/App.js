@@ -32,20 +32,19 @@ function App() {
         <Router>
             <div className="App">
                 <TopMenu />
-
-                <Route path="/" exact component={Index} />
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
-                <Route path="/profile" component={Profile} />
-                <Route path="/manage-permission" component={Permission} />
-                <Route path="/manage-location-court" component={LocationCourt} />
-                <Route path="/manage-company" component={Company} />
-                <Route path="/manage-court" component={Court} />
-                <Route path="/manage-role" component={Role} />
-                <Route path="/manage-user" component={User} />
-                <Route path="/manage-customer" component={Customer} />
-                <Route path="/pick-court" component={PickCourt} />
-                <Route path="/success" component={PickCourtSuccess} />
+                    <Route path="/" exact component={Index} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/register" component={Register} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/manage-permission" component={Permission} />
+                    <Route path="/manage-location-court" component={LocationCourt} />
+                    <Route path="/manage-company" component={Company} />
+                    <Route path="/manage-court" component={Court} />
+                    <Route path="/manage-role" component={Role} />
+                    <Route path="/manage-user" component={User} />
+                    <Route path="/manage-customer" component={Customer} />
+                    <Route path="/pick-court" component={PickCourt} />
+                    <Route path="/success" component={PickCourtSuccess} />
             </div>
         </Router>
     );
