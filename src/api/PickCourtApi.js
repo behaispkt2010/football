@@ -10,6 +10,10 @@ const PickCourtApi = {
 		const url = `/pick_court/${id}`; 
 		return axiosClient.get(url);
 	},
+	getAllPicked: (params) => {
+		const url = "/pick_court/get-picked"; 
+		return axiosClient.post(url, params);
+	},
 	add: (params) => {
 		const url = "/pick_court";
 		return axiosClient.post(url, params);

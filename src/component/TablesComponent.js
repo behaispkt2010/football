@@ -8,6 +8,12 @@ import { render } from "react-dom";
 class Tables extends Component {
     constructor(props) {
         super(props);
+        this.state = {showFunction: 1};
+    }
+    componentDidMount() {
+        this.setState({
+            showFunction: this.props.showFunction
+        })
     }
     renderTableHeader() {
         let header = this.props.dataField;
@@ -34,12 +40,14 @@ class Tables extends Component {
     }
     renderTableData() {
         const { actionUpdateTables, actionDeleteTable } = this.props;
+        
         return this.props.list.map((data, index) => {
             // console.log(data);
             return (
                 <tr key={index}>
                     <td key={index}>{index+1}</td>
                     {this.renderTD(data)}
+                    {this.state.showFunction != 0 &&
                     <td>
                         <Button color="primary" onClick={() => actionUpdateTables(data)}>
                           Cập nhật
@@ -48,6 +56,7 @@ class Tables extends Component {
                           Xóa
                         </Button>{" "}
                     </td>
+                    }
                 </tr>
             );
         });
@@ -59,9 +68,9 @@ class Tables extends Component {
                 <Table>
                     <tbody>
                         <tr>
-                        <th>STT</th>
-                        {this.renderTableHeader()}
-                        <th>Chức năng</th>
+                            <th>STT</th>
+                            {this.renderTableHeader()}
+                            {this.state.showFunction != 0 && <th>Chức năng</th> }
                         </tr>
                         {this.renderTableData()}
                     </tbody>
