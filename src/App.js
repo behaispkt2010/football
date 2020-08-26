@@ -16,15 +16,11 @@ import Court from "./pages/Court";
 import User from "./pages/User";
 import Customer from "./pages/Customer";
 import PickCourt from "./pages/PickCourt";
+import Footer from "./pages/Footer";
+import Home from "./pages/Home";
 import PickCourtSuccess from "./pages/PickCourtSuccess";
 import AuthUserApi from "./api/AuthUserApi";
 import './fontawesome';
-
-const Index = () => (
-  <div>
-    <h2>Trang chủ</h2>
-  </div>
-);
 
 function App() {
     // console.log(AuthUserApi.getCurrentUser());
@@ -32,7 +28,7 @@ function App() {
         <Router>
             <div className="App">
                 <TopMenu />
-                    <Route path="/" exact component={Index} />
+                    <Route path="/" exact component={Home} />
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Register} />
                     <Route path="/profile" component={Profile} />
@@ -46,6 +42,7 @@ function App() {
                     <Route path="/pick-court" component={PickCourt} />
                     <Route path="/success" component={PickCourtSuccess} />
             </div>
+            <Footer />
         </Router>
     );
 }

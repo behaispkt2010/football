@@ -1,0 +1,18 @@
+.footer {
+ 	background-color: #F8F8F8;
+    width: 100%;
+}
+.footer-main {
+	background-color: #E7E7E7;
+}
+.footer-title {
+	font-size: 20px;
+}
+.footer-content {
+	color: #868e96 !important;
+	padding-left: 10px;
+}
+.footer-copyright {
+	background-color: #708497;
+	text-align: center;
+}

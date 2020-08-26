@@ -33,7 +33,7 @@ const TopMenu = props => {
     return (
         <div>
             <Navbar color="light" light expand="md">
-            <NavbarBrand href="/">SEAGAME</NavbarBrand>
+            <NavbarBrand href="/">{process.env.REACT_APP_NAME_COMPANY}</NavbarBrand>
             <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>

@@ -1,0 +1,42 @@
+.home-slider {
+	opacity: 0.6;
+}
+.home-info {
+	position: relative;
+}
+.home-info-company {
+	top: 35%;
+  	left: 3%;
+  	z-index: 999;
+  	position: absolute;
+}
+.home-name-app {
+	color: #ff8c00;
+	text-align: left;
+	font-size: 50px;
+	font-weight: 900;
+}
+.sologen {
+	color: black;
+	font-size: 30px;
+  	font-weight: bolder;
+}
+.home-intro {
+	padding-top: 50px;
+}
+.home-introduce {
+	color: #ff8c00;
+	font-size: 30px;
+}
+.home-introduce-icon {
+	font-size: 40px;
+}
+.home-introduce-detail {
+	padding-top: 30px;
+}
+.home-introduce-header {
+	font-size: 30px;
+}
+.home-introduce-content {
+	color: #868e96 !important;
+}
