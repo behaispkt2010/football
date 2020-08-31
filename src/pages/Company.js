@@ -71,7 +71,9 @@ function Company() {
 			() => {
 				toggle();
 				setLoading(false);
-				window.location.reload();
+				// window.location.reload();
+				fetchCompanyList();
+				setUserInput([]);
 			}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -94,7 +96,9 @@ function Company() {
     		() => {
     			toggle();
     			setLoading(false);
-    			window.location.reload();
+    			// window.location.reload();
+    			fetchCompanyList();
+    			setUserInput([]);
     		}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -107,9 +111,10 @@ function Company() {
     	if(await confirm("Bạn có chắc muốn xóa ?")) {
     		const response = CompanyApi.delete(data.id).then(
 	    		() => {
-	    			toggle();
+	    			// toggle();
 	    			setLoading(false);
-	    			window.location.reload();
+	    			// window.location.reload();
+	    			fetchCompanyList();
 	    		}, (error) => {
 	                const resMessage =
 	                    (error.response && error.response.message) || error.message || error.toString();
@@ -135,20 +140,21 @@ function Company() {
     	setHeader('Cập nhật doanh nghiệp');
     	toggle();
     }
-	useEffect(() => {
-		const fetchCompanyList = async() => {
-			try {
-				const param = {
-					'_page' : 1
-				};
-				const response = await CompanyApi.getAll(param);
-				// console.log(response);
-				setCompanyList(response.data);
-			} catch (errordata) { 
-				console.log("Fail to fetch data: ", errordata);
-			}
+    const fetchCompanyList = async() => {
+		try {
+			const param = {
+				'_page' : 1
+			};
+			const response = await CompanyApi.getAll(param);
+			// console.log(response);
+			setCompanyList(response.data);
+		} catch (errordata) { 
+			console.log("Fail to fetch data: ", errordata);
 		}
+	}
+	useEffect(() => {
 		fetchCompanyList();
+		// console.log(userInput);
 	}, []);
 	let arrFieldShow = [
 	    { name: "Tên doanh nghiệp" },

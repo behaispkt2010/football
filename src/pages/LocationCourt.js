@@ -81,7 +81,9 @@ function LocationCourt() {
 			() => {
 				toggle();
 				setLoading(false);
-				window.location.reload();
+				// window.location.reload();
+				fetchlocationCourtList();
+				setUserInput([]);
 			}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -104,7 +106,9 @@ function LocationCourt() {
     		() => {
     			toggle();
     			setLoading(false);
-    			window.location.reload();
+    			// window.location.reload();
+    			fetchlocationCourtList();
+				setUserInput([]);
     		}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -117,9 +121,10 @@ function LocationCourt() {
     	if(await confirm("Bạn có chắc muốn xóa ?")) {
     		const response = LocationCourtApi.delete(data.id).then(
 	    		() => {
-	    			toggle();
+	    			// toggle();
 	    			setLoading(false);
-	    			window.location.reload();
+	    			// window.location.reload();
+	    			fetchlocationCourtList();
 	    		}, (error) => {
 	                const resMessage =
 	                    (error.response && error.response.message) || error.message || error.toString();
@@ -145,19 +150,20 @@ function LocationCourt() {
     	setHeader('Cập nhật bãi');
     	toggle();
     }
-	useEffect(() => {
-		const fetchlocationCourtList = async() => {
-			try {
-				const param = {
-					'_page' : 1
-				};
-				const response = await LocationCourtApi.getAll(param);
-				// console.log(response);
-				setLocationCourtList(response.data);
-			} catch (errordata) { 
-				console.log("Fail to fetch data: ", errordata);
-			}
+    const fetchlocationCourtList = async() => {
+		try {
+			const param = {
+				'_page' : 1
+			};
+			const response = await LocationCourtApi.getAll(param);
+			// console.log(response);
+			setLocationCourtList(response.data);
+		} catch (errordata) { 
+			console.log("Fail to fetch data: ", errordata);
 		}
+	}
+	useEffect(() => {
+		
 		fetchlocationCourtList();
 	}, []);
 	useEffect(() => {

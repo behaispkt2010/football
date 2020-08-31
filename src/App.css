@@ -1,6 +1,7 @@
 .App {
   font-family: sans-serif;
   text-align: center;
+  min-height: 83.7vh;
 }
 .full-w {
   width: 100%;

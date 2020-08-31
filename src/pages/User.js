@@ -66,7 +66,9 @@ function Customer() {
 			() => {
 				toggle();
 				setLoading(false);
-				window.location.reload();
+				// window.location.reload();
+				fetchuserList();
+    			setUserInput([]);
 			}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -85,7 +87,9 @@ function Customer() {
     		() => {
     			toggle();
     			setLoading(false);
-    			window.location.reload();
+    			// window.location.reload();
+    			fetchuserList();
+    			setUserInput([]);
     		}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -98,9 +102,10 @@ function Customer() {
     	if(await confirm("Bạn có chắc muốn xóa ?")) {
     		const response = UserApi.delete(data.id).then(
 	    		() => {
-	    			toggle();
+	    			// toggle();
 	    			setLoading(false);
-	    			window.location.reload();
+	    			// window.location.reload();
+	    			fetchuserList();
 	    		}, (error) => {
 	                const resMessage =
 	                    (error.response && error.response.message) || error.message || error.toString();
@@ -109,7 +114,6 @@ function Customer() {
 	            }
 			);
     	}
-    	
     }
     function showModal() {
     	setHeader('Thêm mới người dùng');
@@ -124,19 +128,20 @@ function Customer() {
     	setHeader('Cập nhật thông tin người dùng');
     	toggle();
     }
-	useEffect(() => {
-		const fetchuserList = async() => {
-			try {
-				const param = {
-					'_page' : 1
-				};
-				const response = await UserApi.getUser(param);
-				// console.log(response);
-				setUserList(response.data);
-			} catch (errordata) { 
-				console.log("Fail to fetch data: ", errordata);
-			}
+    const fetchuserList = async() => {
+		try {
+			const param = {
+				'_page' : 1
+			};
+			const response = await UserApi.getUser(param);
+			// console.log(response);
+			setUserList(response.data);
+		} catch (errordata) { 
+			console.log("Fail to fetch data: ", errordata);
 		}
+	}
+	useEffect(() => {
+		
 		fetchuserList();
 	}, []);
 	let arrFieldShow = [

@@ -63,7 +63,9 @@ function Role() {
 			() => {
 				toggle();
 				setLoading(false);
-				window.location.reload();
+				// window.location.reload();
+				fetchRolesList();
+    			setUserInput([]);
 			}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -82,7 +84,9 @@ function Role() {
     		() => {
     			toggle();
     			setLoading(false);
-    			window.location.reload();
+    			// window.location.reload();
+    			fetchRolesList();
+    			setUserInput([]);
     		}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -95,9 +99,10 @@ function Role() {
     	if(await confirm("Bạn có chắc muốn xóa ?")) {
     		const response = RolesApi.delete(data.id).then(
 	    		() => {
-	    			toggle();
+	    			// toggle();
 	    			setLoading(false);
-	    			window.location.reload();
+	    			// window.location.reload();
+	    			fetchRolesList();
 	    		}, (error) => {
 	                const resMessage =
 	                    (error.response && error.response.message) || error.message || error.toString();
@@ -126,19 +131,20 @@ function Role() {
     	setHeader('Cập nhật phân quyền');
     	toggle();
     }
-	useEffect(() => {
-		const fetchRolesList = async() => {
-			try {
-				const param = {
-					'_page' : 1
-				};
-				const response = await RolesApi.getAll(param);
-				// console.log(response);
-				setRolesList(response.data);
-			} catch (errordata) { 
-				console.log("Fail to fetch data: ", errordata);
-			}
+    const fetchRolesList = async() => {
+		try {
+			const param = {
+				'_page' : 1
+			};
+			const response = await RolesApi.getAll(param);
+			// console.log(response);
+			setRolesList(response.data);
+		} catch (errordata) { 
+			console.log("Fail to fetch data: ", errordata);
 		}
+	}
+	useEffect(() => {
+		
 		fetchRolesList();
 	}, []);
 	useEffect(() => {

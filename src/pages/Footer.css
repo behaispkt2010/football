@@ -1,9 +1,11 @@
 .footer {
  	background-color: #F8F8F8;
     width: 100%;
+    padding-top: 50px;
 }
 .footer-main {
 	background-color: #E7E7E7;
+	padding: 20px 0px;
 }
 .footer-title {
 	font-size: 20px;

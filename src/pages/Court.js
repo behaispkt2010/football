@@ -79,7 +79,9 @@ function Court() {
 			() => {
 				toggle();
 				setLoading(false);
-				window.location.reload();
+				// window.location.reload();
+				fetchCourtList();
+				setUserInput([]);
 			}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -102,7 +104,9 @@ function Court() {
     		() => {
     			toggle();
     			setLoading(false);
-    			window.location.reload();
+    			// window.location.reload();
+    			fetchCourtList();
+				setUserInput([]);
     		}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -115,9 +119,10 @@ function Court() {
     	if(await confirm("Bạn có chắc muốn xóa ?")) {
     		const response = CourtApi.delete(data.id).then(
 	    		() => {
-	    			toggle();
+	    			// toggle();
 	    			setLoading(false);
-	    			window.location.reload();
+	    			// window.location.reload();
+	    			fetchCourtList();
 	    		}, (error) => {
 	                const resMessage =
 	                    (error.response && error.response.message) || error.message || error.toString();
@@ -142,19 +147,19 @@ function Court() {
     	setHeader('Cập nhật sân');
     	toggle();
     }
-	useEffect(() => {
-		const fetchCourtList = async() => {
-			try {
-				const param = {
-					'_page' : 1
-				};
-				const response = await CourtApi.getAll(param);
-				// console.log(response.data);
-				setCourtList(response.data);
-			} catch (errordata) { 
-				console.log("Fail to fetch data: ", errordata);
-			}
+    const fetchCourtList = async() => {
+		try {
+			const param = {
+				'_page' : 1
+			};
+			const response = await CourtApi.getAll(param);
+			// console.log(response.data);
+			setCourtList(response.data);
+		} catch (errordata) { 
+			console.log("Fail to fetch data: ", errordata);
 		}
+	}
+	useEffect(() => {
 		fetchCourtList();
 	}, []);
 	useEffect(() => {

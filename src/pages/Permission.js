@@ -58,7 +58,9 @@ function Permission() {
 			() => {
 				toggle();
 				setLoading(false);
-				window.location.reload();
+				// window.location.reload();
+				fetchPermsList();
+    			setUserInput([]);
 			}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -76,7 +78,9 @@ function Permission() {
     		() => {
     			toggle();
     			setLoading(false);
-    			window.location.reload();
+    			// window.location.reload();
+    			fetchPermsList();
+    			setUserInput([]);
     		}, (error) => {
                 const resMessage =
                     (error.response && error.response.message) || error.message || error.toString();
@@ -89,9 +93,10 @@ function Permission() {
     	if(await confirm("Bạn có chắc muốn xóa ?")) {
     		const response = PermissionApi.delete(data.id).then(
 	    		() => {
-	    			toggle();
+	    			// toggle();
 	    			setLoading(false);
-	    			window.location.reload();
+	    			// window.location.reload();
+	    			fetchPermsList();
 	    		}, (error) => {
 	                const resMessage =
 	                    (error.response && error.response.message) || error.message || error.toString();
@@ -114,19 +119,19 @@ function Permission() {
     	setHeader('Cập nhật quyền');
     	toggle();
     }
-	useEffect(() => {
-		const fetchPermsList = async() => {
-			try {
-				const param = {
-					'_page' : 1
-				};
-				const response = await PermissionApi.getAll(param);
-				// console.log(response);
-				setPermsList(response.data);
-			} catch (errordata) { 
-				console.log("Fail to fetch data: ", errordata);
-			}
+    const fetchPermsList = async() => {
+		try {
+			const param = {
+				'_page' : 1
+			};
+			const response = await PermissionApi.getAll(param);
+			// console.log(response);
+			setPermsList(response.data);
+		} catch (errordata) { 
+			console.log("Fail to fetch data: ", errordata);
 		}
+	}
+	useEffect(() => {
 		fetchPermsList();
 	}, []);
 	let arrFieldShow = [
