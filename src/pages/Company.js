@@ -152,6 +152,9 @@ function Company() {
 			console.log("Fail to fetch data: ", errordata);
 		}
 	}
+	function handleClose() {
+  		setUserInput(initialUserInput);
+  	}
 	useEffect(() => {
 		fetchCompanyList();
 		// console.log(userInput);
@@ -185,7 +188,7 @@ function Company() {
 	          	showText={getStatus}
 	        />
 	      	)}
-	      	<Modal isOpen={modal} toggle={toggle}>
+	      	<Modal isOpen={modal} toggle={toggle} onClosed={handleClose}>
 		        <ModalHeader toggle={toggle}>{headerlabel}</ModalHeader>
 		        <ModalBody>
 		        	<FormGroup>

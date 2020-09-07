@@ -4,7 +4,7 @@ import AuthUserApi from "./AuthUserApi";
 const PickCourtApi = {
 	getAll: (params) => {
 		const url = "/pick_court";
-		return axiosClient.get(url, params); 
+		return axiosClient.get(url, {params}); 
 	},
 	get: (id) => {
 		const url = `/pick_court/${id}`; 

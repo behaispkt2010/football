@@ -4,7 +4,8 @@ import AuthUserApi from "./AuthUserApi";
 const TimeFrameApi = {
 	getAll: (params) => {
 		const url = "/time_frame";
-		return axiosClient.get(url, params); 
+		// console.log(params);
+		return axiosClient.get(url, {params});
 	},
 	get: (id) => {
 		const url = `/time_frame/${id}`; 

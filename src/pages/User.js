@@ -140,6 +140,9 @@ function Customer() {
 			console.log("Fail to fetch data: ", errordata);
 		}
 	}
+	function handleClose() {
+  		setUserInput(initialUserInput);
+  	}
 	useEffect(() => {
 		
 		fetchuserList();
@@ -171,7 +174,7 @@ function Customer() {
 	          	actionDeleteTable={DeleteData}
 	        /> 
 	      	)}
-	      	<Modal isOpen={modal} toggle={toggle}>
+	      	<Modal isOpen={modal} toggle={toggle} onClosed={handleClose}>
 		        <ModalHeader toggle={toggle}>{headerlabel}</ModalHeader>
 		        <ModalBody>
 		        	<FormGroup>

@@ -162,6 +162,9 @@ function LocationCourt() {
 			console.log("Fail to fetch data: ", errordata);
 		}
 	}
+	function handleClose() {
+  		setUserInput(initialUserInput);
+  	}
 	useEffect(() => {
 		
 		fetchlocationCourtList();
@@ -217,7 +220,7 @@ function LocationCourt() {
 	          	showText={getStatus}
 	        />
 	      	)}
-	      	<Modal isOpen={modal} toggle={toggle}>
+	      	<Modal isOpen={modal} toggle={toggle} onClosed={handleClose}>
 		        <ModalHeader toggle={toggle}>{headerlabel}</ModalHeader>
 		        <ModalBody>
 		        	<FormGroup>

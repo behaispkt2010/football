@@ -70,29 +70,29 @@ function PickCourt() {
 					'_page' : 1
 				};
 				const response = await LocationCourtApi.getAll(param);
-				// console.log(response);
 				setLocationCourtList(response.data);
-				if(response.data) 
+				if(response.data.length > 1) {
 					toggle();
+				}
 			} catch (errordata) { 
 				console.log("Fail to fetch data: ", errordata);
 			}
 		}
 		fetchLocationCourtList();
 	}, []);
-	useEffect(() => {
-		const fetchTimeframeList = async() => {
-			try {
-				const param = {
-					'_page' : 1
-				};
-				const response = await TimeFrameApi.getAll(param);
-				console.log(response);
-				setTimeframeList(response.data);
-			} catch (errordata) { 
-				console.log("Fail to fetch data: ", errordata);
-			}
+	const fetchTimeframeList = async() => {
+		try {
+			const param = {
+				'idlocation' : userInput.idlocationcourt
+			};
+			const response = await TimeFrameApi.getAll(param);
+			// console.log(response);
+			setTimeframeList(response.data);
+		} catch (errordata) { 
+			console.log("Fail to fetch data: ", errordata);
 		}
+	}
+	useEffect(() => {
 		fetchTimeframeList();
 	}, []);
 	function showListTimeFrame(TimeFrame) {
@@ -214,6 +214,7 @@ function PickCourt() {
   		setUserInput({
   			idlocationcourt: userInput.idlocationcourt
   		});
+  		fetchTimeframeList();
   		if(userInput.idlocationcourt != '') {
   			toggle();
   		} else {
@@ -267,7 +268,7 @@ function PickCourt() {
 					{ showListDate() }
 				</Col>
 			</Row>
-			{(userInput.idlocationcourt == '' && locationCourtList != null) && <Modal isOpen={modal} toggle={toggle} backdrop="static"
+			{(locationCourtList != null) && <Modal isOpen={modal} toggle={toggle} backdrop="static"
         keyboard={false}>
 		        <ModalHeader>Chọn bãi</ModalHeader>
 		        <ModalBody>
@@ -287,7 +288,7 @@ function PickCourt() {
 		          	</FormGroup>
 		        </ModalBody>
 		        <ModalFooter>
-		          	<Button color="primary" onClick={SetLocationCourt} className="btnAddNew"disabled={loading}>{loading ? 'Loading...' : 'Xác nhận'}
+		          	<Button color="primary" onClick={SetLocationCourt} className="btnSet"disabled={loading}>{loading ? 'Loading...' : 'Xác nhận'}
 		          	</Button>{" "}
 		        </ModalFooter>
 	      	</Modal>
